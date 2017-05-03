@@ -1,0 +1,61 @@
+// define maximum columns and rows
+$columns: 12;
+$rows: 12;
+
+$gap-count: 8; //increments of 0.5rem up to 4rem.
+
+$breakpoints: (
+  xs: 32em, //512px
+  sm: 40em, //640px
+  md: 52em, //832px
+  lg: 64em  //1042px
+);
+
+.grid { display: grid; }
+.subgrid { display: subgrid; }
+.inline-grid { display: inline-grid; }
+
+.c-auto { grid-template-columns: auto; }
+.r-auto { grid-template-rows: auto; }
+
+@for $i from 1 through $columns {
+  .c-#{$i} { grid-template-columns: repeat(#{$i}, 1fr ); }
+  .cs-#{$i} { grid-column-start: #{$i}; }
+  .ce-#{$i} { grid-column-end: #{$i}; }
+}
+
+@for $i from 1 through $rows {
+  .r-#{$i} { grid-template-rows: repeat(#{$i}, 1fr ); }
+  .rs-#{$i} { grid-row-start: #{$i}; }
+  .re-#{$i} { grid-row-end: #{$i}; }
+}
+
+@for $i from 0 through $gap-count {
+  .cg-#{i} { grid-column-gap: #{$i * .5}rem; }
+  .rg-#{i} { grid-row-gap: #{$i * .5}rem; }
+  .gg-#{i} { grid-row-gap: #{$i * .5}rem; }
+}
+
+@each $container in self, items, container {
+  .#{$container}-align-start { align-#{$container}: start; }
+  .#{$container}-align-end { align-#{$container}: end; }
+  .#{$container}-align-center { align-#{$container}: center; }
+  .#{$container}-align-stretch { align-#{$container}: stretch; }
+}
+
+@if (variable-exists(breakpoints)) {
+  @each $name, $value in $breakpoints {
+    @media (min-width: $value) {
+      @for $i from 1 through $columns {
+        .#{$name}-c-#{$i} { grid-template-columns: repeat(#{$i}, 1fr ); }
+        .#{$name}-cs-#{$i} { grid-column-start: #{$i}; }
+        .#{$name}-ce-#{$i} { grid-column-end: #{$i}; }
+      }
+      @for $i from 1 through $rows {
+        .#{$name}-r-#{$i} { grid-template-rows: repeat(#{$i}, 1fr ); }
+        .#{$name}-rs-#{$i} { grid-row-start: #{$i}; }
+        .#{$name}-re-#{$i} { grid-row-end: #{$i}; }
+      }
+    }
+  }
+}
